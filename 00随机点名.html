@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随机点名</title>
+</head>
+<style>
+    #div1{
+        margin: 50px auto;
+        width: 800px;
+        height:530px;
+        background-color: antiquewhite;
+    }
+    #div2{
+        margin-top: -55px;
+    }
+    .btn{
+        margin: 0px auto;
+        background-color: deeppink;
+        width: 150px;
+        height: 50px;
+    }
+    ul li{
+        display: inline-block;
+        width: 50px;
+        height: 45px;
+        background-color: greenyellow;
+        line-height: 45px;
+        list-style: none;
+        float: left;
+        margin: 10px;
+    }
+
+</style>
+<body>
+<h2 style="text-align: center">随机点名网页</h2>
+<div id="div1">
+<br>
+</div>
+<center>
+    <div id="div2">
+        <input type="button" value="开始点名" id="btn" class="btn">
+        <input type="button" value="暂停点名" id="btn2" class="btn">
+    </div>
+</center>
+<script>
+    for (var i = 1 ; i < 71 ; i++){
+        var ulObject = document.createElement("ul");
+        document.getElementById("div1").appendChild(ulObject);
+        var  liObject = document.createElement("li");
+        liObject.innerText = "小明"+i;
+        liObject.id = i ;
+        liObject.style.cursor = "pointer"
+        liObject.style
+        ulObject.appendChild(liObject);
+    }
+    var timeID;
+    document.getElementById("btn").onclick = function(){
+        clearInterval(timeID);
+        if(!document.getElementById("btn2")){
+            var zanTingBtn = document.createElement("input");
+            zanTingBtn.value = "暂停点名";
+            zanTingBtn.type = "button";
+            zanTingBtn.id = "btn2";
+            zanTingBtn.setAttribute("class","btn");
+            document.getElementById("div2").appendChild(zanTingBtn);
+        }
+        timeID = setInterval("dianMing()",20);
+    };
+    document.getElementById("btn2").onclick = function(){
+        console.log("hhhh");
+        clearInterval(timeID);
+    };
+    function dianMing(){
+        var num = parseInt(Math.random()*71+1);
+        //首先将所有的li变为原来的颜色
+        for (var i = 1 ; i < 71 ; i++){
+            document.getElementById(i.toString()).style.backgroundColor = "greenyellow"
+        }
+        var theLi = document.getElementById(num.toString());
+        theLi.style.backgroundColor = "blue";
+    }
+</script>
+</body>
+</html>

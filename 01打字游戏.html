@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #div1{
+        margin: 50px auto;
+        width: 800px;
+        height:530px;
+        background-color: black;
+        background-image: url("img/bg2.gif");
+        background-repeat: repeat;
+        position: relative;
+    }
+    .div2{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-size: 30px;
+    }
+    .btn{
+        margin: 10px auto;
+        display: block;
+        background-color: deeppink;
+        width: 150px;
+        height: 50px;
+        cursor: pointer;
+    }
+    .btn1{
+        margin: 10px auto;
+        display: block;
+        background-color: green;
+        width: 150px;
+        height: 50px;
+        cursor: pointer;
+    }
+    .tishi{
+        width: 350px;
+        height: 435px;
+        background-color: #F5F5DC;
+        float: left;
+        margin-top: 50px;
+    }
+    p{
+        text-align: center;
+        color: red;
+        font-size: 28px;
+    }
+    h3{
+        font-size: 18px;
+        color: grey;
+        text-indent: 2em;
+    }
+    font{
+        color: red;
+    }
+</style>
+<body>
+<input type="button" value="开始游戏" id="start" class="btn"/>
+<div style="margin-top: -20px">
+    <div class="tishi">
+        <p>游戏玩法简单介绍</p>
+        <h3>
+            首先点击开始游戏按钮进入游戏,在右边大框的位置中就会随机出现连续的带有<font>大写英文字母的或者是数字的、背景颜色不同的小
+            圆圈</font>，当游戏体验者敲击字母键盘区域和数字键盘区域的键盘并且和上面的小圆圈的值一样时候，这时候的小圆圈的值显示
+            为<font>红色字体的“over”，并将原来的背景颜色改变为白色</font>，并在<font>2秒内</font>消失在大框区域中。<font>注意，随着游戏时间的进行，小圆圈出
+            现的频率会越来越快！！！</font>
+        </h3>
+        <h3>
+            当右边的彩色小圆圈出现过多，来不及“消灭”的时候，可以点击暂停游戏开挂的喔！！！
+        </h3>
+        <span><input type="button" value="暂停游戏" id="stop" class="btn1"/></span>
+    </div>
+    <div id="div1"></div>
+</div>
+<script>
+    var arr = ["A","B","C","D","E","F","G","H","I","J","K","L","N","M","O","P","Q",
+    "R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9"];
+    //定义时间
+    var time = 2000;
+    var timeID = "";
+    document.getElementById("start").onclick = function(){
+        timeID = setInterval(game,time);
+    };
+
+    //暂停游戏的设置
+    document.getElementById("stop").onclick = function(){
+       clearInterval(timeID);
+    };
+    //定义一个数组用来存储已经生成的字母div
+    var tem = [];
+    //定义颜色
+    var col = ["#FFBBFF","#FFA500","#DDA0DD","#D1EEEE","#BF3EFF","#7CCD7C","#ADFF2F","#CDAF95","#FFF0F5"]
+    function game(){
+        time = time - 5;
+        if(time < 500){
+            time = 500;
+        }
+        //生成index用做设置值
+        var num = parseInt(Math.random()*35 + 1);
+
+        tem.push(arr[num]);
+        //console.log(tem);
+        //生成x轴水平位置
+        var x = parseInt(Math.random()*740 + 1);
+            //生成y轴垂直位置
+        var y = parseInt(Math.random()*470 + 1);
+        var divObj = document.createElement("div");
+        divObj.setAttribute("class","div2");
+        divObj.style.left = x+"px";
+        divObj.style.top = y+"px";
+        divObj.innerText = arr[num];
+        //给盒子生成id
+        divObj.id = arr[num];
+        divObj.style.position = "absolute";
+        //得到随机颜色
+        //var theColorArr = getColor();
+        //divObj.style.backgroundColor = "rgb("+theColor
+        // Arr[0]+","+theColorArr[1]+","+theColorArr[2]+")";
+        var len = col.length;
+        var index = parseInt(Math.random()*len+0);
+        divObj.style.backgroundColor = col[index];
+        document.getElementById("div1").appendChild(divObj);
+    }
+
+    //消灭的方法
+    window.onkeyup = function(){
+        //网页中没有任何输入框的情况下，得到键盘输入的值
+        //console.log(String.fromCharCode(event.keyCode));
+        var stringKeyValue = String.fromCharCode(event.keyCode);
+        for(var j = 0 ; j < tem.length; j++){
+            if(stringKeyValue == tem[j]){
+                //根据id查询到元素
+                var objDiv = document.getElementById(tem[j]);
+                objDiv.innerText = "over";
+                objDiv.style.fontSize = "20px";
+                objDiv.style.fontWeight = "bold";
+                objDiv.style.color = "red";
+                objDiv.style.backgroundColor = "white";
+                setInterval(function () {
+                    document.getElementById("div1").removeChild(objDiv);
+                },2000);
+            }
+        }
+    };
+    //生成随机颜色
+    function getColor(){
+        var r = parseInt(Math.random()*256 + 1);
+        var g = parseInt(Math.random()*256 + 1);
+        var b = parseInt(Math.random()*256 + 1);
+        var colorArr = [];
+        colorArr[0] = r;
+        colorArr[1] = g;
+        colorArr[2] = b;
+        return colorArr;
+    }
+</script>
+</body>
+</html>
